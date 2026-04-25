@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "bancaria"
+version = "0.1.0"
+description = ""
+authors = ["RodrigoCSbegue <rcsbegue@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+databases = {version = "*", extras = ["aiosqlite", "asyncpg"]}
+fastapi = "^0.135.3"
+uvicorn = "^0.44.0"
+sqlalchemy = "^2.0.49"
+aiosqlite = "^0.22.1"
+pyjwt = "^2.12.1"
+psycopg2-binary = "*"
+pytest = "^9.0.3"
+asyncpg = "^0.31.0"
+httpx = "^0.28.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest-asyncio = "*"
+pytest = "*"
+httpx = "*"
+pytest-mock = "*"
+
+
+[tool.pytest.init_options]
+asyncio_mode = "auto"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
