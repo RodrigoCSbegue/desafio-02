@@ -18,6 +18,8 @@ psycopg2-binary = "*"
 pytest = "^9.0.3"
 asyncpg = "^0.31.0"
 httpx = "^0.28.1"
+pydantic = {extras = ["email"], version = "^2.13.3"}
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 
 
 [tool.poetry.group.dev.dependencies]

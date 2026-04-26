@@ -1,14 +1,12 @@
 from fastapi import FastAPI
-from src.bank.controllers import post
-from src.bank.controllers import auth
+from src.bank.controllers import auth, account, transaction
 from src.bank.database import database, engine, metadata
+from src.bank.controllers import history
 from contextlib import asynccontextmanager
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    from src.bank.models.post import posts
-
     await database.connect()
     metadata.create_all(engine)
     yield
@@ -16,10 +14,13 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(lifespan=lifespan)
+
 app.include_router(auth.router)
-app.include_router(post.router)
+app.include_router(account.router)
+app.include_router(transaction.router)
+app.include_router(history.router)
 
 
 @app.get("/")
 async def root():
-    return {"message": "API rodando 🚀"}
+    return {"message": "API bancária rodando 🚀"}

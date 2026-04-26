@@ -1,7 +1,7 @@
-from fastapi import APIRouter
-from src.bank.schemas.auth import LoginIn
-from src.bank.security import sign_jwt
-from src.bank.views.auth import LoginOut
+from fastapi import APIRouter, HTTPException
+from src.bank.schemas.auth import UserCreate, UserLogin, Token
+from src.bank.services.create_user import create_user
+from src.bank.services.authenticate import authenticate_user
 
 router = APIRouter(
     prefix="/auth",
@@ -9,6 +9,17 @@ router = APIRouter(
 )
 
 
-@router.post("/login", response_model = LoginOut)
-async def login(data: LoginIn):
-    return sign_jwt(user_id = data.user_id)
+@router.post("/register")
+async def register(data: UserCreate):
+    user = await create_user(data)
+    return user
+
+
+@router.post("/login", response_model=Token)
+async def login(data: UserLogin):
+    token = await authenticate_user(data)
+
+    if not token:
+        raise HTTPException(status_code=401, detail="Credenciais inválidas")
+
+    return token

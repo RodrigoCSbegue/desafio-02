@@ -1,17 +1,16 @@
-from sqlalchemy import MetaData
-from sqlalchemy.orm import declarative_base
 import databases
 import sqlalchemy as sa
 from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base
 
-DATABASE_URL = "sqlite:///./blog.db"
-
+DATABASE_URL = "sqlite:///./bank.db"
 
 database = databases.Database(DATABASE_URL)
 metadata = sa.MetaData()
 
 engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
+    DATABASE_URL,
+    connect_args={"check_same_thread": False}
 )
 
 Base = declarative_base()

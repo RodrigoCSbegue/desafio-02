@@ -12,7 +12,7 @@ os.environ.setdefault("DATABASE_URL", f"sqlite: ///test.db")
 @pytest_asyncio.fixture
 async def db(request):
     from src.bank.database import database, Base, engine, metadata
-    from src.bank.models.post import posts
+    from bank.models.account import posts
 
     await database.connect()
     metadata.create_all(engine)

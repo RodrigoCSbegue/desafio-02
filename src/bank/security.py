@@ -1,80 +1,66 @@
 import time
-from typing import Annotated
 from uuid import uuid4
+import hashlib
 
 import jwt
-from fastapi import Depends, HTTPException, Request, status
+from fastapi import Depends, HTTPException, Request
 from fastapi.security import HTTPBearer
-from pydantic import BaseModel
 
 SECRET = "5dfbbabc-1061-4096-9622-bb7049c758e0"
 ALGORITHM = "HS256"
-AUDIENCE = "curso-fastapi"
+AUDIENCE = "bank-171"
 
 
-class AccessToken(BaseModel):
-    iss: str
-    sub: int
-    aud: str
-    exp: float
-    iat: float
-    nbf: float
-    jti: str
+def hash_password(password: str):
+    return hashlib.sha256(password.encode()).hexdigest()
 
 
-class JWTToken(BaseModel):
-    access_token: AccessToken
+def verify_password(plain_password: str, hashed_password: str):
+    return hash_password(plain_password) == hashed_password
 
 
-def sign_jwt(user_id: int) -> JWTToken:
+def sign_jwt(user_id: int):
     now = time.time()
     payload = {
-        "iss": "curso-fastapi.com.br",
-        "sub": str(user_id),
+        "iss": "bank-171.com.br",
+        "sub": user_id,
         "aud": AUDIENCE,
-        "exp": now + (60 * 60),  # 30 minutes
+        "exp": now + (60 * 60),
         "iat": now,
         "nbf": now,
         "jti": uuid4().hex,
     }
+
     token = jwt.encode(payload, SECRET, algorithm=ALGORITHM)
-    return {"access_token": token}
+
+    return {
+        "access_token": token,
+        "token_type": "bearer"
+    }
 
 
-async def decode_jwt(token: str) -> JWTToken | None:
+async def decode_jwt(token: str):
     try:
-        decoded_token = jwt.decode(token, SECRET, algorithms=[ALGORITHM], audience=AUDIENCE)
-        _token = JWTToken.model_validate({"access_token": decoded_token})
-        return _token if _token.access_token.exp >= time.time() else None
+        return jwt.decode(token, SECRET, algorithms=[ALGORITHM], audience=AUDIENCE)
     except Exception:
         return None
 
 
 class JWTBearer(HTTPBearer):
-    def __init__(self, auto_error: bool = True):
-        super(JWTBearer, self).__init__(auto_error=auto_error)
-
-    async def __call__(self, request: Request) -> JWTToken:
+    async def __call__(self, request: Request):
         authorization = request.headers.get("Authorization", "")
         scheme, _, credentials = authorization.partition(" ")
 
-        if credentials:
-            if not scheme == "Bearer":
-                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authentication scheme.")
+        if scheme != "Bearer" or not credentials:
+            raise HTTPException(status_code=401, detail="Token inválido")
 
-            payload = await decode_jwt(credentials)
-            if not payload:
-                raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid or expired token.")
-            return payload
-        else:
-            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid authorization code.")
+        payload = await decode_jwt(credentials)
 
+        if not payload:
+            raise HTTPException(status_code=401, detail="Token inválido ou expirado")
 
-async def get_current_user(token: Annotated[JWTToken, Depends(JWTBearer())]) -> dict[str, int]:
-    return {"user_id": token.access_token.sub}
+        return payload
 
 
-def login_required(current_user: Annotated[dict[str, int], Depends(get_current_user)]):
-    if not current_user:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied")
-    return current_user
+async def get_current_user(token=Depends(JWTBearer())):
+    return {"user_id": token["sub"]}
