@@ -15,7 +15,7 @@ engine = create_engine(
 
 Base = declarative_base()
 
-# Funções para conectar/desconectar (úteis no main.py)
+# Funções para conectar/desconectar que esta no main.py
 async def startup():
     await database.connect()
 

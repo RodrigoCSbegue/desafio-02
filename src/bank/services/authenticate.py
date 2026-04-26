@@ -4,8 +4,8 @@ from src.bank.security import verify_password, sign_jwt
 from src.bank.schemas.auth import UserLogin
 
 
+# 🔍 busca usuário pelo email
 async def authenticate_user(data: UserLogin):
-    # 🔍 busca usuário pelo email
     query = users.select().where(users.c.email == data.email)
     user = await database.fetch_one(query)
 

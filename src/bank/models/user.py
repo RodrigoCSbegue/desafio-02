@@ -1,6 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String, Float
 from src.bank.database import metadata
 
+# Tabela de usuarios
 users = Table(
     "users",
     metadata,

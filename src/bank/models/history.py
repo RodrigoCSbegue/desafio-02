@@ -1,6 +1,7 @@
 from sqlalchemy import Table, Column, Integer, String, Float, ForeignKey
 from src.bank.database import metadata
 
+# Tabela do historico da conta
 transactions = Table(
     "transactions",
     metadata,

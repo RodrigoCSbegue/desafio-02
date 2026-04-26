@@ -87,14 +87,14 @@ async def transfer(from_account_id: int, to_account_id: int, amount: float):
         raise HTTPException(status_code=400, detail="Saldo insuficiente")
 
     async with database.transaction():
-        # debita
+        # debito
         await database.execute(
             accounts.update()
             .where(accounts.c.id == from_account_id)
             .values(balance=accounts.c.balance - amount)
         )
 
-        # credita
+        # credito
         await database.execute(
             accounts.update()
             .where(accounts.c.id == to_account_id)

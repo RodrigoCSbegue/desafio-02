@@ -2,6 +2,7 @@ from sqlalchemy import Table, Column, Integer, Float, String, DateTime
 from datetime import datetime
 from src.bank.database import metadata
 
+# Tabela de transferencias
 transactions = Table(
     "transactions",
     metadata,

@@ -6,8 +6,8 @@ from src.bank.security import hash_password
 from src.bank.schemas.auth import UserCreate
 
 
+# 🔍 verifica se já existe usuário com esse email
 async def create_user(data: UserCreate):
-    # 🔍 verifica se já existe usuário com esse email
     existing = await database.fetch_one(
         users.select().where(users.c.email == data.email)
     )
@@ -18,19 +18,22 @@ async def create_user(data: UserCreate):
     # 🔐 hash da senha
     hashed_password = hash_password(data.password)
 
-    # 👤 cria usuário
-    query = users.insert().values(
-        name=data.name,
-        email=data.email,
-        password=hashed_password
-    )
+# 🛡️ Inicia a transação para garantir que USER e ACCOUNT sejam criados juntos
+    async with database.transaction():
+        # 👤 cria usuário
+        query = users.insert().values(
+            name=data.name,
+            email=data.email,
+            password=hashed_password
+        )
+        user_id = await database.execute(query)
 
-    user_id = await database.execute(query)
-
-    # 🏦 cria conta automaticamente
-    await database.execute(
-        accounts.insert().values(user_id=user_id, balance=0)
-    )
+    # 🏦 cria conta automaticamente vinculada ao user_id
+        query_account = accounts.insert().values(
+            user_id=user_id,
+            balance=0
+        )
+        await database.execute(query_account)
 
     return {
         "id": user_id,

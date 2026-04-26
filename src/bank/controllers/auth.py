@@ -8,13 +8,13 @@ router = APIRouter(
     tags=["auth"]
 )
 
-
+# Para fazer o resgistro da conta
 @router.post("/register")
 async def register(data: UserCreate):
     user = await create_user(data)
     return user
 
-
+# Quando solicitar o login
 @router.post("/login", response_model=Token)
 async def login(data: UserLogin):
     token = await authenticate_user(data)

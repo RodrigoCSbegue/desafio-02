@@ -19,7 +19,7 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
-# 📤 Dados do usuário (sem senha!)
+# 📤 Dados do usuário sem senha
 class UserResponse(BaseModel):
     id: int
     name: str
