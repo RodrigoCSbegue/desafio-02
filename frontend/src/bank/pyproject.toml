@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "dio-blog"
+version = "0.1.0"
+description = ""
+authors = ["RodrigoCSbegue <rcsbegue@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "^0.43.0"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
