@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Bank 171 - Acesso</title>
+    <style>
+        .login-page {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: var(--bg-principal);
+        }
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+        }
+        .logo-login {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--cor-marca);
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .trocar-tela {
+            margin-top: 15px;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--texto-mutado);
+        }
+        .trocar-tela a {
+            color: var(--cor-marca, #007bff);
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="login-page">
+
+    <div class="card login-card">
+        <div class="logo-login">Bank 171</div>
+
+        <div id="login-box">
+            <h2 style="font-size: 1.25rem; margin-bottom: 20px; text-align: center; color: var(--texto-escuro);">
+                Acesse sua conta bancária
+            </h2>
+
+            <label for="email" style="font-size: 0.875rem; color: var(--texto-mutado);">Email</label>
+            <input type="email" id="email" placeholder="Digite seu email" required>
+
+            <label for="password" style="font-size: 0.875rem; color: var(--texto-mutado);">Senha</label>
+            <input type="password" id="password" placeholder="Digite sua senha" required>
+
+            <button id="btn-entrar" style="width: 100%; margin-top: 10px;" onclick="executarLogin()">
+                Entrar na Conta
+            </button>
+
+            <p class="trocar-tela">
+                Ainda não tem conta?
+                <a href="#" onclick="alternarTelas('cadastro')">Cadastre-se</a>
+            </p>
+        </div>
+
+        <div id="cadastro-box" style="display: none;">
+            <h2 style="font-size: 1.25rem; margin-bottom: 20px; text-align: center; color: var(--texto-escuro);">
+                Criar Nova Conta
+            </h2>
+
+            <!-- CAMPO ADICIONADO AQUI -->
+            <label for="reg-name" style="font-size: 0.875rem; color: var(--texto-mutado);">Nome Completo</label>
+            <input type="text" id="reg-name" placeholder="Digite seu nome completo" required>
+
+            <label for="reg-username" style="font-size: 0.875rem; color: var(--texto-mutado);">Nome de Usuário</label>
+            <input type="text" id="reg-username" placeholder="Digite seu username" required>
+
+            <label for="reg-email" style="font-size: 0.875rem; color: var(--texto-mutado);">Email</label>
+            <input type="email" id="reg-email" placeholder="Digite seu email" required>
+
+            <label for="reg-password" style="font-size: 0.875rem; color: var(--texto-mutado);">Senha</label>
+            <input type="password" id="reg-password" placeholder="Crie uma senha" required>
+
+            <button id="btn-cadastrar" style="width: 100%; margin-top: 10px;" onclick="executarCadastro()">
+                Cadastrar
+            </button>
+
+            <p class="trocar-tela">
+                Já possui uma conta?
+            <a href="#" onclick="alternarTelas('login')">Fazer Login</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

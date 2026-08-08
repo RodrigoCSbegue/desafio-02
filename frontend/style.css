@@ -1,0 +1,116 @@
+:root {
+    --bg-principal: #f8fafc;
+    --bg-card: #ffffff;
+    --texto-escuro: #0f172a;
+    --texto-mutado: #64748b;
+    --cor-marca: #2563eb;
+    --cor-marca-hover: #1d4ed8;
+    --borda: #e2e8f0;
+    --sucesso: #10b981;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--bg-principal);
+    color: var(--texto-escuro);
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: var(--bg-card);
+    border-bottom: 1px solid var(--borda);
+    padding: 15px 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--cor-marca);
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+.card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--borda);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    margin-bottom: 24px;
+}
+
+.saldo-container h2 {
+    font-size: 0.875rem;
+    color: var(--texto-mutado);
+    text-transform: uppercase;
+    margin: 0 0 8px 0;
+}
+
+.saldo-valor {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+input:focus {
+    outline: none;
+    border-color: var(--cor-marca);
+}
+
+button {
+    background-color: var(--cor-marca);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background-color: var(--cor-marca-hover);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    color: var(--texto-mutado);
+    font-weight: 600;
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--borda);
+}
+
+td {
+    padding: 16px 8px;
+    border-bottom: 1px solid var(--borda);
+}
+
+.valor-positivo { color: var(--sucesso); font-weight: 600; }
+.valor-negativo { color: var(--texto-escuro); }
